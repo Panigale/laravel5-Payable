@@ -1,0 +1,51 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "60adbacea8c2cd8be3589719110b6417",
+    "packages": [
+        {
+            "name": "panigale/laravel5-gomypay",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Panigale/laravel5-GoMyPay.git",
+                "reference": "80f18b8bcb409f5018c59547f3efbf2790e3f3e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Panigale/laravel5-GoMyPay/zipball/80f18b8bcb409f5018c59547f3efbf2790e3f3e2",
+                "reference": "80f18b8bcb409f5018c59547f3efbf2790e3f3e2",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pagniale\\GoMyPay\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "panigale",
+                    "email": "davy123498@gmail.com"
+                }
+            ],
+            "description": "laravel5 taiwan GoMyPay payment package",
+            "time": "2018-01-18T06:45:56+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
