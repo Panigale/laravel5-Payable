@@ -4,6 +4,9 @@
  * Date: 2018/2/25
  * Time: 下午11:34
  */
+namespace Panigale\Payment\Exceptions;
+
+use InvalidArgumentException;
 
 class PaymentMethodNotExist extends InvalidArgumentException
 {

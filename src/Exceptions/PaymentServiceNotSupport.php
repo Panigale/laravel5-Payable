@@ -5,6 +5,10 @@
  * Time: 下午2:44
  */
 
+namespace Panigale\Payment\Exceptions;
+
+use InvalidArgumentException;
+
 class PaymentServiceNotSupport extends InvalidArgumentException
 {
     public function create($name)

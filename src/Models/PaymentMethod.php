@@ -1,4 +1,5 @@
 <?php
+namespace Panigale\Payment\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

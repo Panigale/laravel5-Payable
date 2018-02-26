@@ -1,6 +1,8 @@
 <?php
+namespace Panigale\Payment;
 
 use Panigale\GoMyPay\GoMyPay;
+use Panigale\Payment\Exceptions\PaymentServiceNotSupport;
 
 /**
  * Author: Panigale
