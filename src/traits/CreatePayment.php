@@ -6,6 +6,9 @@
  */
 namespace Panigale\Payment\Traits;
 
+use Panigale\Payment\Exceptions\PaymentMethodNotExist;
+use Panigale\Payment\Models\Payment;
+use Panigale\Payment\Models\PaymentMethod;
 
 trait CreatePayment
 {

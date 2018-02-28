@@ -6,7 +6,7 @@
  */
 namespace Panigale\Payment\Traits;
 
-use PaymentServiceFactory;
+use Panigale\Payment\PaymentServiceFactory;
 
 trait Payable
 {
