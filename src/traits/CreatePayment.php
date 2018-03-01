@@ -27,12 +27,16 @@ trait CreatePayment
         if(is_null($this->payment))
             $this->payment = $this->make($this->paymentService);
 
+        $no = $this->uuid ?: uniqid();
+
         $this->order = Payment::create([
             'user_id' => $this->id,
-            'no' => $this->uuid ?: uniqid(),
+            'no' => $no,
             'amount' => $this->amount,
-            'payment_method_id' => $this->paymentMethod->id,
-            'payment_service_id' => $this->paymentService->id,
+//            'payment_method_id' => $this->paymentMethod->id,
+//            'payment_service_id' => $this->paymentService->id,
+            'payment_service' => $this->paymentService,
+            'payment_method' => $this->paymentMethod,
             'description' => $this->description,
         ]);
 
