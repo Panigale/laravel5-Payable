@@ -16,7 +16,17 @@ trait CreatePayment
 {
     protected $payment = null;
 
+    /**
+     *
+     *
+     * @var PaymentMethod
+     */
     protected $paymentMethodModel = null;
+
+    /**
+     * @var \Panigale\Payment\Models\PaymentService
+     */
+    protected $paymentServiceModel;
 
     protected $paymentService = null;
 
@@ -35,13 +45,14 @@ trait CreatePayment
 
         $this->order = Payment::create([
             'user_id' => $this->id,
+            'token' => $no,
             'no' => $no,
             'amount' => $this->amount,
-//            'payment_method_id' => $this->paymentMethod->id,
-//            'payment_service_id' => $this->paymentService->id,
-            'payment_service' => $this->paymentService,
-            'payment_method' => $this->paymentMethod,
-            'description' => $this->description,
+            'payment_method_id' => $this->paymentMethodModel->id,
+            'payment_service_id' => $this->paymentServiceModel->id,
+//            'payment_service' => $this->paymentService,
+//            'payment_method' => $this->paymentMethod,
+//            'description' => $this->description,
         ]);
 
         return $this;
@@ -55,6 +66,8 @@ trait CreatePayment
             throw PaymentMethodNotExist::create();
         }
 
+        $this->paymentMethodModel = $methodModel;
+
 
 
         return $method;
@@ -67,6 +80,8 @@ trait CreatePayment
         if(is_null($service)){
             throw PaymentServiceNotSupport::create($service);
         }
+
+        $this->paymentServiceModel = $serviceModel;
 
         return $service;
     }

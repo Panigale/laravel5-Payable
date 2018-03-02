@@ -14,7 +14,8 @@ class CreatePaymentTables extends Migration
     public function up()
     {
         Schema::create('payments' ,function(Blueprint $table){
-            $table->uuid('id');
+            $table->increments('id');
+            $table->uuid('token');
             $table->string('no');
             $table->boolean('has_paid')->defalue(0);
             $table->unsignedInteger('user_id');
