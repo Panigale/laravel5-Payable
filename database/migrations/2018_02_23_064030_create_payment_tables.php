@@ -15,9 +15,9 @@ class CreatePaymentTables extends Migration
     {
         Schema::create('payments' ,function(Blueprint $table){
             $table->increments('id');
-            $table->uuid('token');
+//            $table->uuid('token');
             $table->string('no');
-            $table->boolean('has_paid')->defalue(0);
+            $table->boolean('has_paid')->default(0);
             $table->unsignedInteger('user_id');
             $table->integer('amount');
             $table->string('response')->nullable();

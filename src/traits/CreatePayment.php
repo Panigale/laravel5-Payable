@@ -38,14 +38,13 @@ trait CreatePayment
 
     protected function createPaymentRecord()
     {
-        if(is_null($this->payment))
-            $this->payment = $this->make($this->paymentService);
+        $this->paymentMethodModel = $this->makeMethod($this->paymentMethod);
+        $this->paymentServiceModel = $this->makeService($this->paymentService);
 
         $no = $this->uuid ?: uniqid();
 
         $this->order = Payment::create([
             'user_id' => $this->id,
-            'token' => $no,
             'no' => $no,
             'amount' => $this->amount,
             'payment_method_id' => $this->paymentMethodModel->id,

@@ -7,10 +7,13 @@
 
 namespace Panigale\Payment\Traits;
 
+use Illuminate\Support\Facades\Auth;
+
 trait RedirectPayment
 {
-    public function redirect($user ,$amount ,$no ,$creditCard)
+    public function redirect($amount ,$no ,$creditCard)
     {
-        return $this->payment->redirect($user ,$amount ,$no ,$creditCard);
+        $user = Auth::user();
+        return $this->payment->redirect($amount ,$no ,$creditCard);
     }
 }
