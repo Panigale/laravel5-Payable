@@ -9,7 +9,11 @@ namespace Panigale\Payment\Service;
 
 
 use Panigale\GoMyPay\GoMyPay;
+use Panigale\Payment\Exceptions\PaymentMethodNotExist;
+use Panigale\Payment\Exceptions\PaymentServiceNotSupport;
+use Panigale\Payment\Models\PaymentMethod;
 use Panigale\Payment\Repository\PaymentRepository;
+use Panigale\Payment\Models\PaymentService as Model;
 
 class PaymentService
 {
@@ -38,5 +42,24 @@ class PaymentService
     public function receive()
     {
         return GoMyPay::done();
+    }
+
+    public function swap($paymentMethod ,$paymentService)
+    {
+        $paymentMethod = PaymentMethod::where('name' ,$paymentMethod)->first();
+
+        if(is_null($paymentMethod)){
+            throw new PaymentMethodNotExist($paymentMethod);
+        }
+
+        $paymentService = Model::where('name' ,$paymentService)->first();
+
+        if(is_null($paymentService)){
+            throw new PaymentServiceNotSupport($paymentService);
+        }
+
+        return $paymentMethod->update([
+            'payment_service_id' => $paymentService
+        ]);
     }
 }
