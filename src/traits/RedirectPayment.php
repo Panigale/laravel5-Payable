@@ -9,8 +9,8 @@ namespace Panigale\Payment\Traits;
 
 trait RedirectPayment
 {
-    public function redirect()
+    public function redirect($user ,$amount ,$no ,$creditCard)
     {
-        return $this->payment->redirect();
+        return $this->payment->redirect($user ,$amount ,$no ,$creditCard);
     }
 }

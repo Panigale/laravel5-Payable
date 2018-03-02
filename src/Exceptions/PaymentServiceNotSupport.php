@@ -11,7 +11,7 @@ use InvalidArgumentException;
 
 class PaymentServiceNotSupport extends InvalidArgumentException
 {
-    public function create($name)
+    public static function create($name)
     {
         return new static("Payment service {$name} does not support.");
     }
