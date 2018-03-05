@@ -19,6 +19,8 @@ class PaymentService
 {
     protected $repository;
 
+    public $response;
+
     public function __construct(PaymentRepository $repository)
     {
         $this->repository = $repository;
@@ -29,9 +31,11 @@ class PaymentService
      */
     public function success()
     {
-        $result = $this->receive();
+        $response = $this->receive();
 
-        return $result->result === 'success';
+        $this->response = $response;
+
+        return $response->result;
     }
 
     /**
@@ -62,5 +66,10 @@ class PaymentService
         return $paymentMethod->update([
             'payment_service_id' => $paymentService
         ]);
+    }
+
+    public function getAmount()
+    {
+        return $this->response->amount;
     }
 }
