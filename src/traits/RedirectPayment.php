@@ -14,6 +14,6 @@ trait RedirectPayment
     public function redirect($amount ,$no ,$creditCard)
     {
         $user = Auth::user();
-        return $this->payment->redirect($amount ,$no ,$creditCard);
+        return $this->service->redirect($user ,$amount ,$no ,$creditCard);
     }
 }

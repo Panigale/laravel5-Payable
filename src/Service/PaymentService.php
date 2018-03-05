@@ -31,7 +31,7 @@ class PaymentService
     {
         $result = $this->receive();
 
-        return $result->status === 'success';
+        return $result->result === 'success';
     }
 
     /**
@@ -41,7 +41,8 @@ class PaymentService
      */
     public function receive()
     {
-        return GoMyPay::done();
+        $service = new GoMyPay();
+        return $service->done();
     }
 
     public function swap($paymentMethod ,$paymentService)

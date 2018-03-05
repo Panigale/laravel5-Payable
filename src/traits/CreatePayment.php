@@ -10,12 +10,10 @@ use Panigale\Payment\Exceptions\PaymentMethodNotExist;
 use Panigale\Payment\Exceptions\PaymentServiceNotSupport;
 use Panigale\Payment\Models\Payment;
 use Panigale\Payment\Models\PaymentMethod;
-use Panigale\Payment\Service\PaymentService;
+use Panigale\Payment\Models\PaymentService;
 
 trait CreatePayment
 {
-    protected $payment = null;
-
     /**
      *
      *
@@ -61,15 +59,11 @@ trait CreatePayment
     {
         $methodModel = PaymentMethod::where('name' ,$method)->first();
 
-        if(is_null($method)){
+        if(is_null($methodModel)){
             throw PaymentMethodNotExist::create();
         }
 
-        $this->paymentMethodModel = $methodModel;
-
-
-
-        return $method;
+        return $methodModel;
     }
 
     protected function makeService($service)
@@ -80,8 +74,6 @@ trait CreatePayment
             throw PaymentServiceNotSupport::create($service);
         }
 
-        $this->paymentServiceModel = $serviceModel;
-
-        return $service;
+        return $serviceModel;
     }
 }
