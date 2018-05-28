@@ -46,6 +46,7 @@ class PaymentService
     public function receive()
     {
         $service = new GoMyPay();
+
         return $service->done();
     }
 
@@ -62,6 +63,7 @@ class PaymentService
         if(is_null($paymentService)){
             throw new PaymentServiceNotSupport($paymentService);
         }
+
 
         return $paymentMethod->update([
             'payment_service_id' => $paymentService

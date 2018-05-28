@@ -3,6 +3,7 @@ namespace Panigale\Payment;
 
 use Panigale\GoMyPay\GoMyPay;
 use Panigale\Payment\Exceptions\PaymentServiceNotSupport;
+use Panigale\Payment\Service\Sonet;
 
 /**
  * Author: Panigale
@@ -17,6 +18,8 @@ class PaymentServiceFactory
         switch ($service){
             case 'GoMyPay':
                 return new GoMyPay();
+            case 'Sonet':
+                return app(Sonet::class);
             default:
                 throw new PaymentServiceNotSupport($service);
         }
