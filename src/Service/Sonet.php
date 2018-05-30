@@ -95,9 +95,9 @@ class Sonet extends BasePayment implements PaymentContract
     private function apiUrl()
     {
         if ($this->method == "post") {
-            $apiUrl = $this->apiHost . "microPaymentPost.php";
+            $apiUrl = $this->apiHost() . "microPaymentPost.php";
         } else if ($this->method == "soap") {
-            $apiUrl = $this->apiHost . "xml/microPaymentServiceProdDev.wsdl";
+            $apiUrl = $this->apiHost() . "xml/microPaymentServiceProdDev.wsdl";
         } else {
             die();
         }
