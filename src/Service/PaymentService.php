@@ -12,6 +12,7 @@ use Exception;
 use Panigale\GoMyPay\GoMyPay;
 use Panigale\Payment\Exceptions\PaymentMethodNotExist;
 use Panigale\Payment\Exceptions\PaymentServiceNotSupport;
+use Panigale\Payment\Models\Payment;
 use Panigale\Payment\Models\PaymentMethod;
 use Panigale\Payment\Repository\PaymentRepository;
 use Panigale\Payment\Models\PaymentService as Model;
@@ -22,6 +23,8 @@ class PaymentService
     protected $repository;
 
     public $response;
+
+    protected $payment;
 
     public function __construct(PaymentRepository $repository)
     {
@@ -79,6 +82,28 @@ class PaymentService
     public function getAmount()
     {
         return $this->response->amount;
+    }
+
+    public function getPaymentNo()
+    {
+        return $this->response->tradeNo;
+    }
+
+    public function getPayment()
+    {
+        $payment = Payment::where('no' ,$this->getPaymentNo())->first();
+        $this->payment = $payment;
+
+        return $payment;
+    }
+
+    public function done()
+    {
+        $this->payment->update([
+            'has_paid' => true,
+            'response' => $this->response->response,
+            'service_no' => $this->response->serverTradeId
+        ]);
     }
 
     /**
