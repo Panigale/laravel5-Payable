@@ -8,12 +8,14 @@
 namespace Panigale\Payment\Service;
 
 
+use Exception;
 use Panigale\GoMyPay\GoMyPay;
 use Panigale\Payment\Exceptions\PaymentMethodNotExist;
 use Panigale\Payment\Exceptions\PaymentServiceNotSupport;
 use Panigale\Payment\Models\PaymentMethod;
 use Panigale\Payment\Repository\PaymentRepository;
 use Panigale\Payment\Models\PaymentService as Model;
+use Panigale\Payment\Service\Sonet;
 
 class PaymentService
 {
@@ -28,10 +30,12 @@ class PaymentService
 
     /**
      * @return mixed
+     * @throws Exception
      */
     public function success($paymentService)
     {
         $response = $this->receive($paymentService);
+
 
         $this->response = $response;
 
@@ -42,10 +46,12 @@ class PaymentService
      * 取回交易結果
      *
      * @return mixed
+     * @throws Exception
      */
     public function receive($paymentService)
     {
-        $service = app($paymentService);
+
+        $service = app()->make($this->service($paymentService));
 
         return $service->done();
     }
@@ -73,5 +79,22 @@ class PaymentService
     public function getAmount()
     {
         return $this->response->amount;
+    }
+
+    /**
+     * @param $paymentService
+     * @return string
+     * @throws Exception
+     */
+    public function service($paymentService)
+    {
+        switch ($paymentService){
+            case 'Sonet':
+                return Sonet::class;
+            case 'GoMyPay':
+                return GoMyPay::class;
+            default:
+                throw new Exception("payment service {$paymentService} does not exist");
+        }
     }
 }
