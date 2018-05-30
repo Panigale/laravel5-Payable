@@ -213,7 +213,7 @@ class Sonet extends BasePayment implements PaymentContract
      */
     private function isMicroPayment()
     {
-        return $this->request->mircoPayment;
+        return !is_null($this->request->mircoPayment);
     }
 
     /**
