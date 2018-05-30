@@ -40,12 +40,6 @@ class Sonet extends BasePayment implements PaymentContract
 
     private $actionUrl = 'http://mpay.so-net.net.tw/paymentRule.php'; //product
 
-    /**
-     * So-net 接收回應頁面
-     */
-    //正式環境
-    private $returnUrl = 'https://www.ispl.com.tw/shop/Sonet/auth?redirectTo=bets';
-
     const mpId = 'CITI';
 
     public function __construct(Request $request)
@@ -76,7 +70,7 @@ class Sonet extends BasePayment implements PaymentContract
             'icpUserId'   => $userId,
             'icpProdDesc' => $appName . '點數',
             'price'       => $amount,
-            'returnUrl'   => $this->returnUrl,
+            'returnUrl'   => $this->callbackUrl(),
             'doAction'    => 'authOrderCredit',
             'actionUrl'   => $this->actionUrl()
         ];
@@ -165,7 +159,7 @@ class Sonet extends BasePayment implements PaymentContract
      * @param $pointRepository
      * @return mixed
      */
-    public function catchResult(PaymentFlowRepository $paymentFlowRepository, $pointRepository)
+    public function done()
     {
         $amount = $this->request->price;
         $resultMsg = $this->request->resultMesg;
@@ -174,7 +168,7 @@ class Sonet extends BasePayment implements PaymentContract
         $sonetOrderNo = $this->request->sonetOrderNo;
         $icpOrderId = $this->request->icpOrderId;
         $resultCode = $this->request->resultCode;
-        $order = $paymentFlowRepository->findOrderByNo($icpOrderId);
+        $order = $icpOrderId;
 
         if (is_null($order))
             return view('payment.authFailed');
@@ -186,22 +180,16 @@ class Sonet extends BasePayment implements PaymentContract
             'sonetOrderNo' => $sonetOrderNo
         ];
 
-        if ($order->status == false && $resultMsg === '成功' && $this->confirmOrder($resultInfo) === '00000') {
-            $resultMsg = 'success';
-            Event::fire(new CatchResultEvent($resultCode, $resultMsg, $icpOrderId, $authCode));
-            $finishOrder = $paymentFlowRepository->find($order->id);
+        $serviceResult = $this->confirmOrder($resultInfo) === '00000';
 
-            return ['status' => 'success', 'amount' => $amount, 'tradeNo' => $order->tradeNo, 'order' => $finishOrder];
-
-        } else {
-            if ($resultMsg == '信用卡已掛失' or $resultMsg == '拾獲失竊卡') {
-                User::where('id', $order->user_id)->update(['active' => false]);
-            }
-
-            Event::fire(new CatchResultEvent($resultCode, $resultMsg, $icpOrderId, '0'));
-            $finishOrder = $paymentFlowRepository->find($order->id);
-            return ['status' => 'failed', 'order' => $finishOrder, 'message' => $resultMsg];
-        }
+        return (object)[
+            'result'        => (boolean)$serviceResult,
+            'serverTradeId' => $sonetOrderNo,
+            'amount'        => $amount,
+            'tradeNo'       => $icpOrderId,
+            'response'      => $resultMsg,
+            'authCode'      => $authCode
+        ];
     }
 
     public function errorMessage($resultMsg)
@@ -254,5 +242,10 @@ class Sonet extends BasePayment implements PaymentContract
     protected function actionUrl()
     {
         return env('SONET_DEBUG') ? $this->devActionUrl : $this->actionUrl;
+    }
+
+    private function callbackUrl()
+    {
+        return env('SONET_CALLBACKURL');
     }
 }
