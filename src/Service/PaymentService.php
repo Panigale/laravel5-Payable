@@ -29,9 +29,9 @@ class PaymentService
     /**
      * @return mixed
      */
-    public function success()
+    public function success($paymentService)
     {
-        $response = $this->receive();
+        $response = $this->receive($paymentService);
 
         $this->response = $response;
 
@@ -43,9 +43,9 @@ class PaymentService
      *
      * @return mixed
      */
-    public function receive()
+    public function receive($paymentService)
     {
-        $service = new GoMyPay();
+        $service = app($paymentService);
 
         return $service->done();
     }
