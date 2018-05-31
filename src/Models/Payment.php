@@ -4,6 +4,7 @@
 namespace Panigale\Payment\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Panigale\Point\Models\PointEvent;
 
 /**
  * Author: Panigale
@@ -14,4 +15,9 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     protected $guarded = ['id'];
+
+    public function pointEvent()
+    {
+        return $this->morphMany(PointEvent::class ,'pointable');
+    }
 }
