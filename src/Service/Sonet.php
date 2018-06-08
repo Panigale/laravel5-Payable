@@ -213,7 +213,7 @@ class Sonet extends BasePayment implements PaymentContract
      */
     private function isMicroPayment()
     {
-        return !is_null($this->request->mircoPayment);
+        return !is_null($this->request->microPayment);
     }
 
     /**
@@ -221,7 +221,7 @@ class Sonet extends BasePayment implements PaymentContract
      */
     private function mpId()
     {
-        return $this->isMicroPayment() ? $this->request->mircoPayment : static::mpId;
+        return $this->isMicroPayment() ? $this->request->microPayment : static::mpId;
     }
 
     private function icpId()
