@@ -31,14 +31,14 @@ class Sonet extends BasePayment implements PaymentContract
      * 小額付款測試環境
      * @var string
      */
-    private $devApiHost = "http://mpapi-dev.so-net.net.tw/";
+    private $devApiHost = "https://mpapi-dev.so-net.net.tw/";
 
     /**
      * So-net Micropayment的付款中心條款頁面，通常不用更改
      */
-    private $devActionUrl = 'http://mpay-dev.so-net.net.tw/paymentRule.php';     //dev
+    private $devActionUrl = 'https://mpay-dev.so-net.net.tw/paymentRule.php';     //dev
 
-    private $actionUrl = 'http://mpay.so-net.net.tw/paymentRule.php'; //product
+    private $actionUrl = 'https://mpay.so-net.net.tw/paymentRule.php'; //product
 
     const mpId = 'CITI';
 
