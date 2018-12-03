@@ -119,7 +119,7 @@ class PaymentService
             case 'GoMyPay':
                 return GoMyPay::class;
             default:
-                throw new Exception("payment service {$paymentService} does not exist");
+                throw new PaymentServiceNotSupport($paymentService);
         }
     }
 }

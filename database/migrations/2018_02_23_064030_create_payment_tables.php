@@ -24,6 +24,7 @@ class CreatePaymentTables extends Migration
             $table->string('service_no')->nullable();
             $table->unsignedInteger('payment_method_id');
             $table->unsignedInteger('payment_service_id');
+            $table->morphs('payable');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -51,6 +52,8 @@ class CreatePaymentTables extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('payments');
+        Schema::dropIfExists('payment_methods');
+        Schema::dropIfExists('payment_services');
     }
 }

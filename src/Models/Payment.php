@@ -20,4 +20,5 @@ class Payment extends Model
     {
         return $this->morphMany(PointEvent::class ,'pointable');
     }
+
 }

@@ -6,6 +6,7 @@
  */
 namespace Panigale\Payment\Traits;
 
+use Panigale\Payment\Models\Payment;
 use Panigale\Payment\PaymentServiceFactory;
 
 trait Payable
@@ -20,6 +21,14 @@ trait Payable
      * @var
      */
     protected $amount;
+
+    /**
+     * @return mixed
+     */
+    public function payments()
+    {
+        return $this->morphMany(Payment::class ,'payable');
+    }
 
     public function pay(int $amount ,$method ,$service ,$card)
     {

@@ -4,6 +4,7 @@
  * Date: 2018/2/23
  * Time: 下午3:24
  */
+
 namespace Panigale\Payment\Traits;
 
 use Panigale\Payment\Exceptions\PaymentMethodNotExist;
@@ -34,6 +35,9 @@ trait CreatePayment
 
     protected $order;
 
+    /**
+     * @return $this
+     */
     protected function createPaymentRecord()
     {
         $this->paymentMethodModel = $this->makeMethod($this->paymentMethod);
@@ -41,36 +45,41 @@ trait CreatePayment
 
         $no = $this->uuid ?: uniqid();
 
-        $this->order = Payment::create([
-            'user_id' => $this->id,
-            'no' => $no,
-            'amount' => $this->amount,
-            'payment_method_id' => $this->paymentMethodModel->id,
+        $this->order = $this->payments()->create([
+            'user_id'            => auth()->id(),
+            'no'                 => $no,
+            'amount'             => $this->amount,
+            'payment_method_id'  => $this->paymentMethodModel->id,
             'payment_service_id' => $this->paymentServiceModel->id,
-//            'payment_service' => $this->paymentService,
-//            'payment_method' => $this->paymentMethod,
-//            'description' => $this->description,
         ]);
 
         return $this;
     }
 
+    /**
+     * @param $method
+     * @return mixed
+     */
     protected function makeMethod($method)
     {
-        $methodModel = PaymentMethod::where('name' ,$method)->first();
+        $methodModel = PaymentMethod::where('name', $method)->first();
 
-        if(is_null($methodModel)){
+        if (is_null($methodModel)) {
             throw PaymentMethodNotExist::create();
         }
 
         return $methodModel;
     }
 
+    /**
+     * @param $service
+     * @return mixed
+     */
     protected function makeService($service)
     {
-        $serviceModel = PaymentService::where('name' ,$service)->first();
+        $serviceModel = PaymentService::where('name', $service)->first();
 
-        if(is_null($service)){
+        if (is_null($service)) {
             throw PaymentServiceNotSupport::create($service);
         }
 
