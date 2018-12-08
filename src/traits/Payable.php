@@ -44,6 +44,11 @@ trait Payable
         return $this->redirect($amount ,$this->order->no ,$card);
     }
 
+    public function payment()
+    {
+        return $this->order;
+    }
+
     public function payBy(string $method)
     {
         $this->paymentMethod = $this->make($method);
