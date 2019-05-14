@@ -11,5 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class PaymentMethod extends Model
 {
+    protected $guarded = [];
 
+    public function service()
+    {
+        return $this->belongsTo(PaymentService::class ,'payment_service_id');
+    }
 }
