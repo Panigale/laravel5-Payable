@@ -30,7 +30,7 @@ trait Payable
         return $this->morphMany(Payment::class ,'payable');
     }
 
-    public function pay(int $amount ,$method ,$service ,$card)
+    public function pay(int $amount ,$method ,$service ,$card = [])
     {
         $this->amount = $amount;
         $this->paymentMethod = $method;
@@ -41,7 +41,7 @@ trait Payable
          */
         $this->createPaymentRecord();
 
-        return $this->redirect($amount ,$this->order->no ,$card);
+        return $this->redirect($amount ,$this->order->no ,$method ,$card);
     }
 
     public function payment()

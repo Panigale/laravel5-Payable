@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 trait RedirectPayment
 {
-    public function redirect($amount ,$no ,$creditCard)
+    public function redirect($amount ,$no ,$method ,$creditCard)
     {
         $user = Auth::user();
-        return $this->service->redirect($user ,$amount ,$no ,$creditCard);
+
+        return $this->service->redirect($user ,$amount ,$no ,$method ,$creditCard);
     }
 }

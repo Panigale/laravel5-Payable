@@ -2,7 +2,9 @@
 namespace Panigale\Payment;
 
 use Panigale\GoMyPay\GoMyPay;
+use Panigale\GoMyPay\Service\GoMyPayEntity;
 use Panigale\Payment\Exceptions\PaymentServiceNotSupport;
+use Panigale\Payment\Service\AllPay;
 use Panigale\Payment\Service\Sonet;
 
 /**
@@ -20,6 +22,10 @@ class PaymentServiceFactory
                 return new GoMyPay();
             case 'Sonet':
                 return app(Sonet::class);
+            case 'GoMyPayEntity':
+                return new GoMyPayEntity();
+            case 'AllPay':
+                return new AllPay();
             default:
                 throw new PaymentServiceNotSupport($service);
         }

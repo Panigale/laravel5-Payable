@@ -54,7 +54,7 @@ class Sonet extends BasePayment implements PaymentContract
      * @param $tradeType
      * @throws Exception
      */
-    public function redirect($user, $amount, $no, $creditCard)
+    public function redirect($user, $amount, $no, $method ,$creditCard)
     {
         $appName = config('app.name');
         $icpId = $this->icpId();
