@@ -5,12 +5,10 @@
  * Time: 11:39
  */
 
-namespace Panigale\Payment\Sdk\AllPay;
-
 /**
  * 付款方式。
  */
-abstract class Somp
+abstract class PaymentMethod
 {
     /**
      * 不指定付款方式。
@@ -452,7 +450,8 @@ class AllInOne
     function CheckOut($target = "_self")
     {
         $arParameters = array_merge(array('MerchantID' => $this->MerchantID), $this->Send);
-        Send::CheckOut($target, $arParameters, $this->SendExtend, $this->HashKey, $this->HashIV, $this->ServiceURL);
+
+        return Send::CheckOut($target, $arParameters, $this->SendExtend, $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
     //產生訂單html code

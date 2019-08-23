@@ -5,12 +5,13 @@
  * Time: 11:40
  */
 
+
 namespace Panigale\Payment\Service;
 
+include __DIR__.'/../Sdk/AllPay/Somp.php';
 
 use Panigale\Payment\Contract\PaymentContract;
-
-include '../Sdk/AllPay/Somp.php';
+use AllInOne;
 
 class AllPay extends BasePayment implements PaymentContract
 {
@@ -118,6 +119,6 @@ class AllPay extends BasePayment implements PaymentContract
 
     private function merchantId()
     {
-        return config('app.merchantID');
+        return config('payment.allPay.merchantId');
     }
 }
