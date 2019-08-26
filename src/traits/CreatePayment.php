@@ -65,7 +65,7 @@ trait CreatePayment
         $methodModel = PaymentMethod::where('name', $method)->first();
 
         if (is_null($methodModel)) {
-            throw PaymentMethodNotExist::create();
+            throw PaymentMethodNotExist::create($method);
         }
 
         return $methodModel;
