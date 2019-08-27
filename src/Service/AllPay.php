@@ -87,7 +87,7 @@ class AllPay extends BasePayment implements PaymentContract
         switch ($tradeType){
             case 'stores-code':
                 return 'CVS';
-            case 'Web-ATM':
+            case 'Web ATM':
                 return 'ATM';
             case 'barcode':
                 return 'BARCODE';
