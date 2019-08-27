@@ -51,15 +51,17 @@ class AllPay extends BasePayment implements PaymentContract
 
     public function done()
     {
-        $tradeNo = $this->request->MerchantTradeNo;
-        $resultCode = $this->request->RtnCode;
-        $resultMsg = $this->request->RtnMsg;
-        $amount = $this->request->TradeAmt;
+        $request = request();
+
+        $tradeNo = $request->MerchantTradeNo;
+        $resultCode = $request->RtnCode;
+        $resultMsg = $request->RtnMsg;
+        $amount = $request->TradeAmt;
 
         if($this->confirmOrder())
             return [
                 'payed'        => $resultCode,
-                'serviceNo' => $this->request->TradeNo,
+                'serviceNo' => $request->TradeNo,
                 'payAmount'        => $amount,
                 'no'       => $tradeNo,
                 'response'      => $resultMsg
