@@ -41,7 +41,7 @@ trait CreatePayment
     protected function createPaymentRecord()
     {
         $this->paymentMethodModel = $this->makeMethod($this->paymentMethod);
-        $this->paymentServiceModel = $this->makeService($this->paymentService);
+        $this->paymentServiceModel = $this->makeService($this->paymentProvider);
 
         $no = $this->uuid ?: uniqid();
 

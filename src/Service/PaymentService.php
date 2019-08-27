@@ -51,12 +51,18 @@ class PaymentService
      * @return mixed
      * @throws Exception
      */
-    public function receive($paymentService)
+    public function receive($provider)
     {
-
-        $service = app()->make($this->service($paymentService));
+        $service = app()->make($this->service($provider));
 
         return $service->done();
+    }
+
+    public function successResponse($provider)
+    {
+        $service = app()->make($this->service($provider));
+
+        return $service->successResponse();
     }
 
     public function swap($paymentMethod ,$paymentService)
@@ -118,6 +124,8 @@ class PaymentService
                 return Sonet::class;
             case 'GoMyPay':
                 return GoMyPay::class;
+            case 'AllPay':
+                return AllPay::class;
             default:
                 throw new PaymentServiceNotSupport($paymentService);
         }

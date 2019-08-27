@@ -57,11 +57,11 @@ class AllPay extends BasePayment implements PaymentContract
         $amount = $this->request->TradeAmt;
 
         if($this->confirmOrder())
-            return (object)[
-                'result'        => $resultCode,
-                'serverTradeId' => $this->request->TradeNo,
-                'amount'        => $amount,
-                'tradeNo'       => $tradeNo,
+            return [
+                'payed'        => $resultCode,
+                'serviceNo' => $this->request->TradeNo,
+                'payAmount'        => $amount,
+                'no'       => $tradeNo,
                 'response'      => $resultMsg
             ];
 
@@ -74,7 +74,7 @@ class AllPay extends BasePayment implements PaymentContract
         /* 服務參數 */
         $oPayment->HashKey = $this->hashKey();
         $oPayment->HashIV = $this->hashIV();
-        $oPayment->MerchantID = $this->merchantID;
+        $oPayment->MerchantID = $this->merchantId();
         /* 取得回傳參數 */
         $feedback = $oPayment->CheckOutFeedback();
         return count($feedback) > 0;
@@ -120,5 +120,10 @@ class AllPay extends BasePayment implements PaymentContract
     private function merchantId()
     {
         return config('payment.allPay.merchantId');
+    }
+
+    public function successResponse()
+    {
+        return '1|OK';
     }
 }

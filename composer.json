@@ -2,7 +2,6 @@
     "name": "panigale/laravel5-payment",
     "require": {
         "Panigale/laravel5-GoMyPay": "^0.1.1",
-        "panigale/laravel5-point-system": "1.1.0.3"
     },
     "autoload": {
         "psr-4": {

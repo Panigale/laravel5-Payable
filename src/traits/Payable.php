@@ -72,7 +72,7 @@ trait Payable
      */
     public function payBy(string $method)
     {
-        $this->paymentMethod = $this->makeMethod($method);
+        $this->paymentMethod = $method;
 
         return $this;
     }
