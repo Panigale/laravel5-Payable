@@ -128,7 +128,7 @@ trait Payable
     {
         $this->card = [
             'number' => $number,
-            'expired' => $expired,
+            'expiry' => $expired,
             'cvv' => $cvv
         ];
 
