@@ -101,7 +101,7 @@ class AllPay extends BasePayment implements PaymentContract
 
     private function hashKey()
     {
-        return config('payment.allPay.hashKay');
+        return config('payment.allPay.hashKey');
     }
 
     private function hashIV()
