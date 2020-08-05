@@ -21,6 +21,8 @@ trait Payable
 
     protected $card = [];
 
+    protected $paymentUser = null;
+
     /**
      * @var
      */
@@ -30,6 +32,9 @@ trait Payable
      * @var
      */
     protected $payable;
+
+
+
 
     /**
      * @return mixed
@@ -135,6 +140,13 @@ trait Payable
         return $this;
     }
 
+    public function setUser($user)
+    {
+        $this->paymentUser = $user;
+
+        return $this;
+    }
+
     /**
      * 建立金流付款欄位
      *
@@ -143,16 +155,31 @@ trait Payable
     public function create()
     {
         $amount = $this->amount;
-        $no = $this->uuid;
+        $no = $this->uuid ?: uniqid();
         $method = $this->paymentMethod;
         $this->paymentServiceProvider =  PaymentServiceFactory::create($this->paymentProvider);
         $card = $this->card;
 
+        $attributes = [
+            'user_id'            => auth()->id(),
+            'no'                 => $no,
+            'amount'             => $this->amount,
+            'payment_method_id'  => $this->paymentMethodModel->id,
+            'payment_service_id' => $this->paymentServiceModel->id,
+        ];
+
+
+
         /**
          * 收到付款要求後，建立付款訂單，並導向到重導向頁面，將金流需要的格式用 form post 方式帶過去
          */
-        $this->createPaymentRecord();
+        $payment = $this->createPaymentRecord($attributes);
+
+        if($this->hasCarrier()){
+            $payment->addInvoice();
+        }
 
         return $this->redirect($amount ,$no ,$method ,$card);
     }
+
 }

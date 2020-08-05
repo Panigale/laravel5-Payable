@@ -21,6 +21,11 @@ class Payment extends Model
         return $this->morphMany(PointEvent::class ,'pointable');
     }
 
+    public function payable()
+    {
+        return $this->morphTo();
+    }
+
     public function method()
     {
         return $this->belongsTo(PaymentMethod::class ,'payment_method_id');

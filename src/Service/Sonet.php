@@ -40,7 +40,7 @@ class Sonet extends BasePayment implements PaymentContract
 
     private $actionUrl = 'https://mpay.so-net.net.tw/paymentRule.php'; //product
 
-    const mpId = 'CITI';
+    const mpId = 'FIRSTBANK';
 
     public function __construct(Request $request)
     {
@@ -54,7 +54,7 @@ class Sonet extends BasePayment implements PaymentContract
      * @param $tradeType
      * @throws Exception
      */
-    public function redirect($user, $amount, $no, $method ,$creditCard)
+    public function redirect($user, $amount, $no, $method, $creditCard)
     {
         $appName = config('app.name');
         $icpId = $this->icpId();
@@ -80,6 +80,7 @@ class Sonet extends BasePayment implements PaymentContract
         if (isset($authResponse['authCode'])) {
             $authCode = $authResponse['authCode'];
             $requiredField['authCode'] = $authCode;
+            unset($requiredField['doAction']);
 
             return $requiredField;
         } else {
@@ -163,15 +164,11 @@ class Sonet extends BasePayment implements PaymentContract
     {
         $amount = $this->request->price;
         $resultMsg = $this->request->resultMesg;
-        $authCode = $this->request->authCode;
-        $icpId = $this->request->icpId;
+//        $authCode = $this->request->authCode;
+        $icpId = $this->icpId();
         $sonetOrderNo = $this->request->sonetOrderNo;
         $icpOrderId = $this->request->icpOrderId;
-        $resultCode = $this->request->resultCode;
-        $order = $icpOrderId;
-
-        if (is_null($order))
-            return view('payment.authFailed');
+//        $resultCode = $this->request->resultCode;
 
         //回傳結果檢查需要的參數
         $resultInfo = (object)[
@@ -182,13 +179,12 @@ class Sonet extends BasePayment implements PaymentContract
 
         $serviceResult = $this->confirmOrder($resultInfo) === '00000';
 
-        return (object)[
-            'result'        => (boolean)$serviceResult,
-            'serverTradeId' => $sonetOrderNo,
-            'amount'        => $amount,
-            'tradeNo'       => $icpOrderId,
-            'response'      => $resultMsg,
-            'authCode'      => $authCode
+        return [
+            'payed'     => $serviceResult,
+            'serviceNo' => $sonetOrderNo,
+            'payAmount' => $amount,
+            'no'        => $icpOrderId,
+            'response'  => $resultMsg
         ];
     }
 
@@ -213,7 +209,7 @@ class Sonet extends BasePayment implements PaymentContract
      */
     private function isMicroPayment()
     {
-        return !is_null($this->request->microPayment);
+        return ! is_null($this->request->microPayment);
     }
 
     /**

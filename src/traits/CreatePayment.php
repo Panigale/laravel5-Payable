@@ -38,20 +38,12 @@ trait CreatePayment
     /**
      * @return $this
      */
-    protected function createPaymentRecord()
+    protected function createPaymentRecord(array $payment)
     {
         $this->paymentMethodModel = $this->makeMethod($this->paymentMethod);
         $this->paymentServiceModel = $this->makeService($this->paymentProvider);
 
-        $no = $this->uuid ?: uniqid();
-
-        $this->order = $this->payments()->create([
-            'user_id'            => auth()->id(),
-            'no'                 => $no,
-            'amount'             => $this->amount,
-            'payment_method_id'  => $this->paymentMethodModel->id,
-            'payment_service_id' => $this->paymentServiceModel->id,
-        ]);
+        $this->order = $this->payments()->create($payment);
 
         return $this;
     }

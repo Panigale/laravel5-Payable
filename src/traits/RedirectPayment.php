@@ -13,7 +13,7 @@ trait RedirectPayment
 {
     public function redirect($amount ,$no ,$method ,$creditCard)
     {
-        $user = Auth::user();
+        $user = is_null($this->paymentUser) ? Auth::user() : $this->paymentUser;
 
         return $this->paymentServiceProvider->redirect($user ,$amount ,$no ,$method ,$creditCard);
     }
