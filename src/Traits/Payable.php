@@ -159,6 +159,8 @@ trait Payable
         $method = $this->paymentMethod;
         $this->paymentServiceProvider =  PaymentServiceFactory::create($this->paymentProvider);
         $card = $this->card;
+        $this->paymentMethodModel = $this->makeMethod($this->paymentMethod);
+        $this->paymentServiceModel = $this->makeService($this->paymentProvider);
 
         $attributes = [
             'user_id'            => auth()->id(),
