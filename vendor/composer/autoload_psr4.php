@@ -6,5 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Panigale\\Point\\' => array($vendorDir . '/panigale/laravel5-point-system/src'),
+    'Panigale\\Payment\\' => array($baseDir . '/src'),
     'Pagniale\\GoMyPay\\' => array($vendorDir . '/panigale/laravel5-gomypay/src'),
 );

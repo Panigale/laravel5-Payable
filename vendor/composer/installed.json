@@ -33,5 +33,43 @@
             }
         ],
         "description": "laravel5 taiwan GoMyPay payment package"
+    },
+    {
+        "name": "panigale/laravel5-point-system",
+        "version": "1.1.0.3",
+        "version_normalized": "1.1.0.3",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Panigale/laravel5-Points.git",
+            "reference": "a09153cfbe1a097a76f88c71dca989f49eb403aa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Panigale/laravel5-Points/zipball/a09153cfbe1a097a76f88c71dca989f49eb403aa",
+            "reference": "a09153cfbe1a097a76f88c71dca989f49eb403aa",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "~1.0",
+            "phpunit/phpunit": "~6.0"
+        },
+        "time": "2018-05-29T07:32:20+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Panigale\\Point\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "davy's Macbook pro",
+                "email": "davy123498@gmail.com"
+            }
+        ]
     }
 ]
