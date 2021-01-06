@@ -163,20 +163,33 @@ class Sonet extends BasePayment implements PaymentContract
      */
     public function done()
     {
-        $amount = $this->request->price;
-        $resultMsg = $this->request->resultMesg;
+        if($this->isXML()){
+            $res = $this->getXMLRes();
+
+            $resultInfo = (object)[
+                'icpId'        => $res['ICP_ID'],
+                'icpOrderId'   => $res['ICP_ORDER_ID'],
+                'sonetOrderNo' => $res['SONET_ORDER_NO']
+            ];
+        }
+        else{
+            $amount = $this->request->price;
+            $resultMsg = $this->request->resultMesg;
 //        $authCode = $this->request->authCode;
-        $icpId = $this->icpId();
-        $sonetOrderNo = $this->request->sonetOrderNo;
-        $icpOrderId = $this->request->icpOrderId;
+            $icpId = $this->icpId();
+            $sonetOrderNo = $this->request->sonetOrderNo;
+            $icpOrderId = $this->request->icpOrderId;
 //        $resultCode = $this->request->resultCode;
 
-        //回傳結果檢查需要的參數
-        $resultInfo = (object)[
-            'icpId'        => $icpId,
-            'icpOrderId'   => $icpOrderId,
-            'sonetOrderNo' => $sonetOrderNo
-        ];
+            //回傳結果檢查需要的參數
+            $resultInfo = (object)[
+                'icpId'        => $icpId,
+                'icpOrderId'   => $icpOrderId,
+                'sonetOrderNo' => $sonetOrderNo
+            ];
+        }
+
+
 
         $serviceResult = $this->confirmOrder($resultInfo) === '00000';
 
@@ -270,5 +283,22 @@ class Sonet extends BasePayment implements PaymentContract
             default:
                 return $tradeType;
         }
+    }
+
+    public function successResponse()
+    {
+        return '0000';
+    }
+
+    private function isXML()
+    {
+        $data = $this->request->getContent();
+
+        return count(xmlStringToArray($data)) > 0;
+    }
+
+    private function getXMLRes()
+    {
+        return xmlStringToArray($this->request->getContent());
     }
 }
