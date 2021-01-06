@@ -263,6 +263,10 @@ class Sonet extends BasePayment implements PaymentContract
                 return $this->mpId();
 //            case 'barcode':
 //                return 'BARCODE';
+            case 'barcode':
+                return 'IBON';
+            case 'stores-code':
+                return 'IBON';
             default:
                 return $tradeType;
         }

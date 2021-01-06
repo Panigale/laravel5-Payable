@@ -24,6 +24,7 @@ class Somp {
 					$postfield .= "$k=".urlencode($v)."&";
 				}
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $postfield);
+                curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, 'DEFAULT@SECLEVEL=1');
 				$strReturn = curl_exec($ch);
 				curl_close($ch);
 				
