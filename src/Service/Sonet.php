@@ -60,12 +60,13 @@ class Sonet extends BasePayment implements PaymentContract
         $icpId = $this->icpId();
         $icpProdId = $this->icpProdId();
         $userId = $user->id;
+        $method = $this->paymentMethod($method);
 
         $requiredField = [
             'icpId'       => $icpId,
             'icpOrderId'  => $no,
             'icpProdId'   => $icpProdId,
-            'mpId'        => $this->mpId(), //付款方式
+            'mpId'        => $method, //付款方式
             'memo'        => $appName,
             'icpUserId'   => $userId,
             'icpProdDesc' => $appName . '點數',
@@ -217,7 +218,8 @@ class Sonet extends BasePayment implements PaymentContract
      */
     private function mpId()
     {
-        return $this->isMicroPayment() ? $this->request->microPayment : static::mpId;
+
+        return $this->debug() ? 'CITI' : static::mpId;
     }
 
     private function icpId()
@@ -230,18 +232,39 @@ class Sonet extends BasePayment implements PaymentContract
         return env('SONET_ICPPRODID');
     }
 
+    private function debug()
+    {
+        return env('SONET_DEBUG');
+    }
+
     protected function apiHost()
     {
-        return env('SONET_DEBUG') ? $this->devApiHost : $this->apiHost;
+        return $this->debug() ? $this->devApiHost : $this->apiHost;
     }
 
     protected function actionUrl()
     {
-        return env('SONET_DEBUG') ? $this->devActionUrl : $this->actionUrl;
+        return $this->debug() ? $this->devActionUrl : $this->actionUrl;
     }
 
     private function callbackUrl()
     {
         return env('SONET_CALLBACKURL');
+    }
+
+    private function paymentMethod(string $tradeType)
+    {
+        switch ($tradeType){
+//            case 'stores-code':
+//                return 'CVS';
+            case 'Web ATM':
+                return 'vATM_FCB';
+            case 'credit card':
+                return $this->mpId();
+//            case 'barcode':
+//                return 'BARCODE';
+            default:
+                return $tradeType;
+        }
     }
 }
