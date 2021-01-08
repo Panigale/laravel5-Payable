@@ -294,7 +294,7 @@ class Sonet extends BasePayment implements PaymentContract
     {
         $data = $this->request->getContent();
 
-        return count($this->xmlStringToArray($data)) > 0;
+        return str_contains($data ,'xml');
     }
 
     private function getXMLRes()
