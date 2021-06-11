@@ -177,9 +177,9 @@ trait Payable
          */
         $payment = $this->createPaymentRecord($attributes);
 
-        if($this->hasCarrier()){
-            $payment->addInvoice();
-        }
+//        if($this->hasCarrier()){
+//            $payment->addInvoice();
+//        }
 
         return $this->redirect($amount ,$no ,$method ,$card);
     }
