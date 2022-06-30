@@ -31,7 +31,14 @@ class Somp {
 				/**
 				* 將回傳的結果處理後以Association Array的方式傳回
 				*/
-				$finalAry = $this->getResult($strReturn);
+                try{
+                    $finalAry = $this->getResult($strReturn);
+                }catch (\Exception $e){
+                    throw new \Exception([
+                        'status' => 'error',
+                        'message' => $strReturn,
+                    ]);
+                }
 				break;
 			default :
 				$finalAry = "";
