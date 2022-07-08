@@ -41,6 +41,10 @@ class Sonet extends BasePayment implements PaymentContract
     private $actionUrl = 'https://mpay.so-net.net.tw/paymentRule.php'; //product
 
     const mpId = 'FIRSTBANK';
+    /**
+     * @var mixed|string
+     */
+    private $paymentMethod;
 
     public function __construct(Request $request)
     {
@@ -61,6 +65,7 @@ class Sonet extends BasePayment implements PaymentContract
         $icpProdId = $this->icpProdId();
         $userId = $user->id;
         $method = $this->paymentMethod($method);
+        $this->paymentMethod = $method;
 
         $requiredField = [
             'icpId'       => $icpId,
@@ -309,5 +314,15 @@ class Sonet extends BasePayment implements PaymentContract
         $array = json_decode($json,TRUE);
 
         return $array;
+    }
+
+    public function getPaymentInfo($data)
+    {
+        $somp = app()->make(Somp::class);
+
+        $finalAry = $somp->doRequest($this->method, $data, $this->apiUrl());
+
+        return $finalAry;
+
     }
 }
