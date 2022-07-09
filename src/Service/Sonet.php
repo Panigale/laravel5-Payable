@@ -192,7 +192,7 @@ class Sonet extends BasePayment implements PaymentContract
             ];
         }
 
-        $confrimRes = $this->confirmOrder($resultInfo);
+        $confirmRes = $this->confirmOrder($resultInfo);
         $resultCode = isset($finalAry['resultCode']) ? $finalAry['resultCode'] : false;
 
         return [
@@ -201,8 +201,8 @@ class Sonet extends BasePayment implements PaymentContract
             'payAmount' => $amount,
             'no'        => $icpOrderId,
             'response'  => $resultMsg,
-            'vatmAccount' => optional($confrimRes)->vatmAccount,
-            'expireDatetime' => optional($confrimRes)->expireDatetime
+            'vatmAccount' => optional($confrimRes)['vatmAccount'],
+            'expireDatetime' => optional($confrimRes)['expireDatetime']
         ];
     }
 
