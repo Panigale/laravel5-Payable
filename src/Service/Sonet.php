@@ -201,8 +201,8 @@ class Sonet extends BasePayment implements PaymentContract
             'payAmount' => $amount,
             'no'        => $icpOrderId,
             'response'  => $resultMsg,
-            'vatmAccount' => optional($confrimRes)['vatmAccount'],
-            'expireDatetime' => optional($confrimRes)['expireDatetime']
+            'vatmAccount' => optional($confirmRes)['vatmAccount'],
+            'expireDatetime' => optional($confirmRes)['expireDatetime']
         ];
     }
 
