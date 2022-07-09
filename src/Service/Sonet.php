@@ -130,9 +130,7 @@ class Sonet extends BasePayment implements PaymentContract
             'doAction'     => 'confirmOrder'
         ];
 
-        $finalAry = $somp->doRequest($this->method, $data, $this->apiUrl());
-
-        return isset($finalAry['resultCode']) ? $finalAry['resultCode'] : false;
+        return $somp->doRequest($this->method, $data, $this->apiUrl());
     }
 
     /**
@@ -194,16 +192,17 @@ class Sonet extends BasePayment implements PaymentContract
             ];
         }
 
-
-
-        $serviceResult = $this->confirmOrder($resultInfo) === '00000';
+        $confrimRes = $this->confirmOrder($resultInfo);
+        $resultCode = isset($finalAry['resultCode']) ? $finalAry['resultCode'] : false;
 
         return [
-            'payed'     => $serviceResult,
+            'payed'     => $resultCode === '00000',
             'serviceNo' => $sonetOrderNo,
             'payAmount' => $amount,
             'no'        => $icpOrderId,
-            'response'  => $resultMsg
+            'response'  => $resultMsg,
+            'vatmAccount' => optional($confrimRes)->vatmAccount,
+            'expireDatetime' => optional($confrimRes)->expireDatetime
         ];
     }
 
