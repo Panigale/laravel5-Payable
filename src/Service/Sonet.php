@@ -117,7 +117,7 @@ class Sonet extends BasePayment implements PaymentContract
      * 驗證交易是否正確
      *
      * @param $orderInfo
-     * @return string
+     * @return array
      */
     public function confirmOrder($resultInfo)
     {
@@ -193,10 +193,10 @@ class Sonet extends BasePayment implements PaymentContract
         }
 
         $confirmRes = $this->confirmOrder($resultInfo);
-        $resultCode = isset($finalAry['resultCode']) ? $finalAry['resultCode'] : false;
+        $resultCode = isset($confirmRes['resultCode']) ? $confirmRes['resultCode'] : false;
 
         return [
-            'payed'     => $resultCode === '00000',
+            'payed'     => $this->isPayedRes($resultCode),
             'serviceNo' => $sonetOrderNo,
             'payAmount' => $amount,
             'no'        => $icpOrderId,
@@ -323,5 +323,10 @@ class Sonet extends BasePayment implements PaymentContract
 
         return $finalAry;
 
+    }
+
+    private function isPayedRes($resultCode)
+    {
+        return $resultCode === '00000';
     }
 }
